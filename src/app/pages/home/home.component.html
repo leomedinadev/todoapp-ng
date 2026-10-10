@@ -22,16 +22,16 @@
       </pre> -->
       <section class="main">
         <ul class="todo-list">
-          <li  (dblclick)="updateTaskEditingMode(i)"
-                *ngFor="let task of taskByFilter(); index as i" 
+          <li  (dblclick)="updateTaskEditingMode(task.id)"
+                *ngFor="let task of taskByFilter(); trackBy: trackById" 
                 [class.editing]="task.editing"
                 [class.completed]="task.completed">
             <div class="view">
-              <input class="toggle" type="checkbox" [checked]="task.completed" (change)="updateTask(i)" />
+              <input class="toggle" type="checkbox" [checked]="task.completed" (change)="updateTask(task.id)" />
               <label>{{ task.title }}</label>
-              <button class="destroy" (click)="deleteTask(i)"></button>
+              <button class="destroy" (click)="deleteTask(task.id)"></button>
             </div>
-            <input class="edit" [value]="task.title" (keydown.enter)="updateTaskText(i, $event)"/>
+            <input class="edit" [value]="task.title" (keydown.enter)="updateTaskText(task.id, $event)"/>
           </li>
         
         </ul>
