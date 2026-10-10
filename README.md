@@ -1,47 +1,44 @@
-# TodoappNg
+# Todo App con Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+Lista de tareas al estilo [TodoMVC](https://todomvc.com/) hecha con **Angular 17**, para practicar componentes standalone, **signals** y formularios reactivos.
 
-## Development server
+## Qué incluye
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Crear tareas, marcarlas como hechas, editarlas con doble clic y borrarlas.
+- Filtros: todas, pendientes y completadas.
+- Borrar de una vez las completadas.
+- Las tareas se guardan en `localStorage`.
 
-## Code scaffolding
+## Qué se practica
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Concepto | Dónde |
+|---|---|
+| Estado con `signal`, valores derivados con `computed` y persistencia con `effect` | [`home.component.ts`](src/app/pages/home/home.component.ts) |
+| Formularios reactivos con `FormControl` y validadores | [`home.component.ts`](src/app/pages/home/home.component.ts) |
+| Ejercicios sueltos de signals y formularios | [`labs.component.ts`](src/app/pages/labs/labs.component.ts), en la ruta `/labs` |
 
-## Build
+## Stack
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Angular 17 (standalone) y TypeScript
+- SCSS con los estilos de TodoMVC
+- Karma y Jasmine
+- Configuración de despliegue en Firebase Hosting (`firebase.json`)
 
-## Running unit tests
+## Cómo ejecutar
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Requiere Node.js 18 o superior.
 
-## Running end-to-end tests
+```bash
+npm install
+npm start
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+La aplicación queda en `http://localhost:4200`.
 
-## Further help
+## Scripts
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Firebase
-
-npm install -g firebase-tools
-
-firebase login
-
-firebase init
-
-firebase deploy
-
-## Migrar a la nueva sitaxis de Angular 17
-
-ng g @angular/core:control-flow
-
-
-## Hosting
-
-todo-app-ng-e3a88.web.app
-todo-app-ng-e3a88.firebaseapp.com
+| Comando | Qué hace |
+|---|---|
+| `npm start` | Servidor de desarrollo |
+| `npm test` | Tests unitarios |
+| `npm run build` | Compila para producción en `dist/todoapp-ng` |

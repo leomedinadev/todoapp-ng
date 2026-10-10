@@ -47,8 +47,8 @@ export class HomeComponent {
 
   trackTasks() {
     effect( () => {
-      const tasks = this.tasks();
-      console.log(tasks);
+      // El modo edición es estado de pantalla: no se guarda
+      const tasks = this.tasks().map(({editing, ...task}) => task);
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }, {injector: this.injector})
   }
@@ -77,17 +77,15 @@ export class HomeComponent {
     this.tasks.update(prevState => [...prevState, newTask]);
   }
 
-  deleteTask(index: number) {
-    this.tasks.update((tasks) => tasks.filter((task, position) => position !== index));
-    // this.tasks.mutate(state => {
-    //   state.splice(index, 1);
-    // })
+  // Las tareas se identifican por su id: la posición en pantalla cambia según el filtro activo
+  deleteTask(id: number) {
+    this.tasks.update((tasks) => tasks.filter((task) => task.id !== id));
   }
 
-  updateTask(index: number) {
+  updateTask(id: number) {
     this.tasks.update(tasks => {
-      return tasks.map( (task, position) => {
-        if (position === index) {
+      return tasks.map( (task) => {
+        if (task.id === id) {
           return {
             ...task, completed: !task.completed
           }
@@ -97,10 +95,10 @@ export class HomeComponent {
     });
   }
 
-  updateTaskEditingMode(index: number) {
+  updateTaskEditingMode(id: number) {
     this.tasks.update(tasks => {
-      return tasks.map( (task, position) => {
-        if (position === index && !task.completed) {
+      return tasks.map( (task) => {
+        if (task.id === id && !task.completed) {
           return {...task, editing: true}
         }
         return {...task, editing: false}
@@ -108,21 +106,22 @@ export class HomeComponent {
     })
   }
 
-  updateTaskText(index: number, event: Event) {
+  updateTaskText(id: number, event: Event) {
     const input = event.target as HTMLInputElement;
+    const title = input.value.trim();
     this.tasks.update(prevState => {
-      return prevState.map( (task, position) => {
-        if (position === index) {
-          return { ...task, title: input.value, editing: false}
+      return prevState.map( (task) => {
+        if (task.id === id) {
+          // Un título vacío no reemplaza al anterior
+          return { ...task, title: title || task.title, editing: false}
         }
         return task;
       });
     })
   }
-  updateTaskText2(index: number,event: Event, task: Task) {
-      const input = event.target as HTMLInputElement;
-      task.title = input.value;
-      task.editing = false;
+
+  trackById(_index: number, task: Task) {
+    return task.id;
   }
 
   changeFilter(filter: FilterEnum) {
